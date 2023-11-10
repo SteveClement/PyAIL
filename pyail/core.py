@@ -9,13 +9,19 @@ from uuid import UUID
 
 # # TODO: add exception
 def encode_and_compress_data(data):
-    return base64.b64encode(gzip.compress(data.encode('utf-8'))).decode()
+    if not isinstance(data, str):
+        return base64.b64encode(gzip.compress(data))
+    else:
+        return base64.b64encode(gzip.compress(data.encode('utf-8'))).decode()
 
 # # TODO: add exception
 # # TODO: add encoding
 def get_data_sha256(data):
     m = sha256()
-    m.update(data.encode('utf-8'))
+    if not isinstance(data, str):
+        m.update(data)
+    else:
+        m.update(data.encode('utf-8'))
     return m.hexdigest()
 
 # # TODO: ADD NEW AIL OBJECT
